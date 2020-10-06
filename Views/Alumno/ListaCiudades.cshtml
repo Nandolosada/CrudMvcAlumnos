@@ -1,0 +1,11 @@
+﻿@model IEnumerable<CRUDMvcAspAlumnos.Models.ciudad>
+
+    <select class="form-control" id="CodCiudad" name="CodCiudad">
+        @foreach (var item in Model)
+        {
+           <option value="@item.Id">@item.nombre</option>
+        }
+    </select>
+
+
+

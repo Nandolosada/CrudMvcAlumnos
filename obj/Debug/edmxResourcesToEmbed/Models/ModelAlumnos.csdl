@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="AlumnosDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityContainer Name="AlumnosContext" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="alumno" EntityType="AlumnosDBModel.alumno" />
+    <EntitySet Name="ciudad" EntityType="AlumnosDBModel.ciudad" />
+    <EntitySet Name="sysdiagrams" EntityType="AlumnosDBModel.sysdiagrams" />
+    <AssociationSet Name="FK_alumno_ciudad" Association="AlumnosDBModel.FK_alumno_ciudad">
+      <End Role="ciudad" EntitySet="ciudad" />
+      <End Role="alumno" EntitySet="alumno" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="alumno">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Nombres" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Apellidos" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Edad" Type="Int32" Nullable="false" />
+    <Property Name="Sexo" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+    <Property Name="FechaRegistro" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="CodCiudad" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="ciudad" Relationship="AlumnosDBModel.FK_alumno_ciudad" FromRole="alumno" ToRole="ciudad" />
+  </EntityType>
+  <EntityType Name="ciudad">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="nombre" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="alumno" Relationship="AlumnosDBModel.FK_alumno_ciudad" FromRole="ciudad" ToRole="alumno" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <Association Name="FK_alumno_ciudad">
+    <End Type="AlumnosDBModel.ciudad" Role="ciudad" Multiplicity="1" />
+    <End Type="AlumnosDBModel.alumno" Role="alumno" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ciudad">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="alumno">
+        <PropertyRef Name="CodCiudad" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>
